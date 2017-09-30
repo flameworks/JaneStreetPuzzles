@@ -111,20 +111,4 @@ def main()
     end
     puts "Time Taken: #{Time.now - startTime} secs"
     return " Best Route: #{getRoute(bestRoute)} "
-end
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+end 
