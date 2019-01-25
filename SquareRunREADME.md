@@ -1,5 +1,6 @@
 # SquareRun
 Puzzles accessed from: https://www.janestreet.com/puzzles/square-run/
+September 2017 Puzzle
 
 A queen is located at a1 and wishes to travel to h8 via a series of one or more moves. (These must be legal queen’s moves.)
 
