@@ -1,156 +1,93 @@
-from basic import getParams, printer, getGrid, verifyGrid
-from meths import jamGrid
-from copy import deepcopy as dc
+from basic import getParams, printer, getGrid, verifyGrid, scorer, getGrpNum, getSuperNeigh
+from dictMethods import dictPrint, dictFixedCount
 import time
 
-def getAllpot(gridInput,itier):
-    grid = dc(gridInput)
+def getAllPotentials(grid,itier):
     grps = getParams()
     potArr = {}
     errorStr = ""
-    x = 0
+    prevCount = 0
+    # Fill array dict of potential values per cell
     for i in range(9):
         for j in range(9):
-            if grid[i][j] == 0:
-                for grp in grps:
-                    if (i,j) in grp:
-                        x = len(grp)+1
-                        break
-                potArr[(i,j)] = list(range(1,x))
-            else:
-                potArr[(i,j)] = [grid[i][j]]
+            if grid[i][j] == 0: potArr[(i,j)]= list(range(1,len(grps[getGrpNum((i,j),grps)])+1))
+            else:potArr[(i,j)]= [grid[i][j]]
 
-    for kkz in range(itier):
-        # Remove dups in potentials
-        potArr = removeDups(potArr)
+    # Iterative section starts
+    itiCounter = 0
+    while True:
+        itiCounter += 1        
+        # Switch 'while' state if grid filling is stagnant.
+        gridCount = dictFixedCount(potArr)
+        if gridCount == prevCount: break
+        prevCount = gridCount 
 
-        # Fill cells that have only 1 num possibility in cage
-        for grp in grps:
-            for num in range(1,9):
-                counter = 0
-                counterCoord = (-1,-1)
-                for coord in grp:
-                    if num in potArr[coord]:
-                        counter += 1
-                        counterCoord = coord
-                if counter == 1:
-                    r,c = counterCoord
-                    if len(potArr[(r,c)]) > 1:
-                        potArr[(r,c)] = [num]
-                        potArr = removeDups(potArr)
-
-        # If Multiple, remove options that dont have available neighbours
-        # If Single, jam those with singleton Neighbours
         for i in range(9):
             for j in range(9):
+                # Remove options from cells that dont have available spatial neighbours.
                 if len(potArr[(i,j)]) > 1:
-                    tempHold = dc(potArr[(i,j)])
                     for pot in potArr[(i,j)]:
                         neighArr = getSuperNeigh(potArr,(i,j),pot)
-                        if len(neighArr) == 0: tempHold.remove(pot)
-                    potArr[(i,j)] = tempHold
-                    if len(tempHold) == 0: errorStr += "ERROR 1"
-                    if len(potArr[(i,j)]) == 1: potArr = removeDups(potArr)
-
+                        if len(neighArr) == 0: potArr[(i,j)].remove(pot)
+                    if len(potArr[(i,j)]) == 0: errorStr += "ERROR 1"
                 elif len(potArr[(i,j)]) == 0: errorStr += "ERROR 2"
-                else:
+                            
+                # For fixed cells
+                if len(potArr[(i,j)]) == 1:
+                    # Because cell is fixed, remove this option from cage-mates. 
+                    tgt = potArr[(i,j)][0]
+                    grp = grps[getGrpNum((i,j),grps)]
+                    for coord in grp:
+                        if tgt in potArr[coord] and coord != (i,j):
+                            potArr[coord].remove(tgt)      
+                    # If fixed cell has a singleton spatial neighbour, fix neighbour.
                     num = potArr[(i,j)][0]
                     neighArr = getSuperNeigh(potArr,(i,j),num)
                     if len(neighArr) == 0: errorStr += "ERROR 3"
                     if len(neighArr) == 1:
                         nR,nC = neighArr[0]
                         if num not in potArr[(nR,nC)]: errorStr += "SERIOUS ERROR"
-                        potArr[(nR,nC)] = [num]
-                        potArr = removeDups(potArr)
+                        potArr[(nR,nC)].clear()
+                        potArr[(nR,nC)].append(num)
+        
+        # Fix cells that requires a specific number has to be filled due to cage restrictions.
+        for grp in grps:
+            temp = []
+            for coord in grp:
+                temp += potArr[coord]
+            for num in range(1,9):
+                if temp.count(num) == 1:
+                    for coord in grp:
+                        if num in potArr[coord]:
+                            r,c = coord
+                            potArr[(r,c)].clear()
+                            potArr[(r,c)].append(num)
+                            break
 
-        for key,item in potArr.items():
-            if len(item) == 1:
-                r,c = key
-                x = item[0]
-                if grid[r][c] == 0:
-                    grid[r][c] = x
-
+    for key,item in potArr.items():
+        if len(item) == 1:
+            r,c = key
+            x = item[0]
+            if grid[r][c] == 0:
+                grid[r][c] = x
+                
     dictPrint(potArr,grid)
     if errorStr != "": print("@@@@@@@@@@@@@@@@@@@@@ERRORS:", errorStr)
+    print("Iterations: ",itiCounter)
     return grid
-
-def removeDups(potArr):
-    grps = getParams()
-    boolW = True
-    while boolW:
-        boolW = False
-        for i in range(9):
-            for j in range(9):
-                if len(potArr[(i,j)]) == 1:
-                    tgt = potArr[(i,j)][0]
-                    for grp in grps:
-                        if (i,j) in grp:
-                            for coord in grp:
-                                if tgt in potArr[coord] and coord != (i,j):
-                                    potArr[coord].remove(tgt)
-                                    if len(potArr[coord]) == 1: boolW = True
-                            break
-    return potArr
-
-def dictPrint(potArr,grid):
-    grps = getParams()
-    counter = 0
-    for key, item in potArr.items():
-#    for key, item in sorted(potArr.items(), key = lambda k:(-len(k[1]))):
-        if len(item) == 1: counter += 1
-        if len(item)==2:
-            print("{}: {}".format(key, item))
-    idx = 0
-    for grp in grps:
-        idx +=1
-        for num in range(1,9):
-            counterX = 0
-            temp = []
-            for c in grp:
-                if num in potArr[c]: 
-                    counterX += 1
-                    temp.append(c)
-            if counterX == 2:
-                print(num,temp)
-            
-#        print("Group",idx,":")
-#        for e in grp:
-#            print("{}: {}".format(e, potArr[e]))
-    print("Grid Count: ",counter)
-    strr = (8,6)
-    print("X",strr,potArr[strr])
-
-def getSuperNeigh(potArr,coord,x):
-    r,c = coord
-    grps = getParams()
-    ans = []
-    if r-x >= 0: ans.append((r-x,c))
-    if r+x <= 8: ans.append((r+x,c))
-    if c-x >= 0: ans.append((r,c-x))
-    if c+x <= 8: ans.append((r,c+x))
-    tempAns = dc(ans)
-    for tR,tC in ans:
-        if x not in potArr[(tR,tC)]: tempAns.remove((tR,tC))
-    ans = tempAns
-    for grp in grps:
-        if coord in grp:
-            temp = dc(ans)
-            for neigh in ans:
-                if neigh in grp: temp.remove(neigh)
-            return temp
-    return "error"
 
 start = time.time()
 y = getGrid()
-y = jamGrid(y)
 y[0][2] = 8
 y[1][3] = 7
+y[7][5] = 6
+y[3][2] = 5
 y[2][8] = 6
 y[1][5] = 6
-y[3][2] = 5
-#y[0][3] = 1
-finalGrid = getAllpot(y,5)
+y[2][4] = 3
+finalGrid = getAllPotentials(y,5)
 print("RESULT",verifyGrid(finalGrid),"!")
 printer(finalGrid)
+print("SCORE: ",scorer(finalGrid))
 end = time.time()
 print("Time Taken: ",end - start)
