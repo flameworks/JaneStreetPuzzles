@@ -1,3 +1,46 @@
+import numpy as np
+def getSuperNeigh(potArr,coord,x):
+    r,c = coord
+    grps = getParams()
+    tempAns = []
+    if r-x >= 0: tempAns.append((r-x,c))
+    if r+x <= 8: tempAns.append((r+x,c))
+    if c-x >= 0: tempAns.append((r,c-x))
+    if c+x <= 8: tempAns.append((r,c+x))
+    temp = []
+    for tR,tC in tempAns:
+        if x in potArr[(tR,tC)]: temp.append((tR,tC))
+    grp = grps[getGrpNum(coord,grps)]
+    ans = []
+    for neigh in temp:
+        if neigh not in grp: ans.append(neigh)
+    return ans
+
+def scorer(grid):
+    arr = [0]*20
+    grps = getParams()
+    for i in range(9):
+        temp = grid[i][0]
+        tempGNum = getGrpNum((i,0),grps)
+        for j in range(1,9):
+            grpNum = getGrpNum((i,j),grps)
+            if tempGNum == grpNum:
+                temp = temp*10 + grid[i][j]
+            else:
+                if arr[tempGNum] < temp: arr[tempGNum] = temp
+                tempGNum = grpNum
+                temp = grid[i][j]
+        if arr[tempGNum] < temp: arr[tempGNum] = temp
+    print(arr)
+    return np.sum(arr)
+            
+def getGrpNum(coord,grps):
+    idx = 0
+    for grp in grps:
+        if coord in grp: return idx
+        idx += 1
+    return False
+        
 def verifyGrid(grid):
     grps = getParams()
     # Check spacing constraint
@@ -7,13 +50,12 @@ def verifyGrid(grid):
             if i+num <= 8 and grid[i+num][j] == num: continue
             if i-num >= 0 and grid[i-num][j] == num: continue
             if j+num <= 8 and grid[i][j+num] == num: continue
-            if j-num <= 8 and grid[i][j-num] == num: continue
-    total = 0
+            if j-num >= 0 and grid[i][j-num] == num: continue
+            return False
+    # Check all spaces filled
     for i in range(9):
         for j in range(9):
-            num = grid[i][j]
-            if num != 0: total+=1
-    if total != 81: return False
+            if grid[i][j] == 0: return False
     # Check cage constraint
     for grp in grps:
         cnt = list(range(1,len(grp)+1))
@@ -76,6 +118,6 @@ def getParams():
     grp18 = [(7,6),(8,4),(8,5),(8,6),(8,7)]
     grp19 = [(6,5),(6,6)]
     grp20 = [(7,7),(7,8),(8,8)]
-    return [grp1,grp2,grp3,grp4,grp5,grp6,grp7,grp8,grp9,
-            grp10,grp11,grp12,grp13,grp14,grp15,grp16,grp17,grp18,grp19,grp20]
+    return (grp1,grp2,grp3,grp4,grp5,grp6,grp7,grp8,grp9,
+            grp10,grp11,grp12,grp13,grp14,grp15,grp16,grp17,grp18,grp19,grp20)
     
