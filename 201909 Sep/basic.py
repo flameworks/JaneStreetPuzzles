@@ -119,5 +119,5 @@ def getParams():
     grp19 = [(6,5),(6,6)]
     grp20 = [(7,7),(7,8),(8,8)]
     return (grp1,grp2,grp3,grp4,grp5,grp6,grp7,grp8,grp9,
-            grp10,grp11,grp12,grp13,grp14,grp15,grp16,grp17,grp18,grp19,grp20)
+            grp10,grp11,grp12,grp13,grp14,grp15,grp16,grp17,grp18,grp19,grp20) 
     
