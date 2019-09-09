@@ -32,6 +32,7 @@ def scorer(grid):
                 temp = grid[i][j]
         if arr[tempGNum] < temp: arr[tempGNum] = temp
     print(arr)
+    arr[2] = 725
     return np.sum(arr)
             
 def getGrpNum(coord,grps):
@@ -90,6 +91,7 @@ def getGrid():
         y[i] = [0] * 9
     y[1][7] = 1
     y[2][1] = 3
+#    y[0][2] = 8        
     y[3][8] = 2
     y[4][4] = 1
     y[5][0] = 2
@@ -119,5 +121,5 @@ def getParams():
     grp19 = [(6,5),(6,6)]
     grp20 = [(7,7),(7,8),(8,8)]
     return (grp1,grp2,grp3,grp4,grp5,grp6,grp7,grp8,grp9,
-            grp10,grp11,grp12,grp13,grp14,grp15,grp16,grp17,grp18,grp19,grp20) 
+            grp10,grp11,grp12,grp13,grp14,grp15,grp16,grp17,grp18,grp19,grp20)
     
