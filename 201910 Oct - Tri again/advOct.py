@@ -18,7 +18,7 @@ def main():
     print("Hash: ",time.time() - start)
     start = time.time()    
     
-    finalRoute = [];    routeArr = []
+    finalRoute = [];  poleArr.sort();  routeArr = []
     endRouteLen = len(poleArr)
     routeArr.append( [] )
     cnt = 0
