@@ -1,3 +1,20 @@
+def scorer(triArr):
+    ans = 1; ansArr = []
+    for (b1,b2),(h1,h2),v in triArr:
+        dist = abs(h2-b2)
+        if dist % 2 == 1: 
+            ans *= dist
+            ansArr.append(dist)
+    print("Score Array:",ansArr)
+    return ans
+
+def getArea(base,h,v): # Only base specific
+    b1,b2 = base;   h1,h2 = h;  v1,v2 = v    
+    height = abs(v1-b1);    length = abs(h2-b2)
+    if height <= 1 or length <= 1: return False
+    if height % 2 == 1 and length % 2 == 1: return False
+    return 0.5 * height * length
+
 def printer(y):
     topLine = "   "
     for i in range(17):
