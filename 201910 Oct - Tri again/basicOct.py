@@ -1,5 +1,5 @@
 def scorer(triArr):
-    ans = 1; ansArr = []
+    ans = 3; ansArr = [3]
     for (b1,b2),(h1,h2),v in triArr:
         dist = abs(h2-b2)
         if dist % 2 == 1: 
