@@ -11,14 +11,14 @@ def main():
                (2,12),(6,11),(15,2),(10,0),(13,0),(16,3),
                (6,1),(2,0),(1,3),(5,2),(0,9),(2,5),(4,7),
                (8,8),(10,5),(12,3),(12,9),(11,14),
-               (14,4),(16,7),(14,11),(15,13),(14,16)]
+               (14,4),(16,7),(14,11),(15,13),(14,16)]    
 
 #    globHash = getHash() # 3.52 Sec
     globHash = getHashAns() # Shortened result from hashPole.py to get all triangle combinations
     print("Hash: ",time.time() - start)
     start = time.time()    
     
-    finalRoute = [];  poleArr.sort();  routeArr = []
+    finalRoute = [];  routeArr = []
     endRouteLen = len(poleArr)
     routeArr.append( [] )
     cnt = 0
@@ -78,4 +78,3 @@ finalRoute = x[0]
 print("Score:",'{:,}'.format(scorer(finalRoute)))
 end = time.time()
 print("Time Taken: ",end - start)    
-
