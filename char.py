@@ -36,8 +36,6 @@ class Character(object):
             dprint(self.name +
                    f' hurt with remaining hp {self.hp}.')
 
-    
-
 class Fighter(Character):
     def __init__(self):
         super().__init__()
@@ -84,14 +82,12 @@ class Berserker(Fighter):
         self.cost = 200
 
     def act(self,myTeam,enemy):
-        target = randAlive(enemy)
-        if self.hp <= self.maxhp / 2:
+        if self.hp <= self.maxhp // 2:
+            self.str = 200
             print('Bersek mode! Attack double')
-            dprint(f'Hurt enemy {target} by damage {self.str * 2}.')
-            enemy[target].gotHurt(self.str * 2)
         else:
-            dprint(f'Hurt enemy {target} by damage {self.str}.')
-            enemy[target].gotHurt(self.str)
+            self.str = 100
+        super().act(myTeam, enemy)
 
 class ArchMage(Mage):
     def __init__(self):
@@ -114,7 +110,7 @@ class ArchMage(Mage):
             for i in myTeam:
                 if i.alive: aliveCount += 1
             if aliveCount == 1: self.castKaboom(myTeam,enemy)
-            else: self.cast(myTeam,enemy)            
+            else: super().cast(myTeam,enemy)            
 
 class Necromancer(Mage):
     def __init__(self):
@@ -140,5 +136,5 @@ class Necromancer(Mage):
                     deadPossibility = True
                     break
             if deadPossibility: self.castRaiseDead(myTeam,enemy)
-            else: self.cast(myTeam,enemy)
+            else: super().cast(myTeam,enemy)
    
