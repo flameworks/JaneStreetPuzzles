@@ -5,6 +5,6 @@ For some values of N, it is possible to separate the triangular grid into disjoi
 
 What is the sum of all values of N < 40 for which it is possible?
 
-https://www.janestreet.com/puzzles/triads/
-![github-small](https://www.janestreet.com/puzzles/wp-content/uploads/2020/04/triangular_2.png)
+https://www.janestreet.com/puzzles/triads/ </br>
+![github-small](https://www.janestreet.com/puzzles/wp-content/uploads/2020/04/triangular_2.png = 250x250)
 
