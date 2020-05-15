@@ -86,19 +86,22 @@ def getSplits():
     return glob
 
 def printer(y):
-    print("   0  1  2  3  4  5  6  7  8 ")
+    header = '   '
+    for i in range(9):
+        header += f'{i}  '
+    print(header)
     for cnt in range(9):
         row = y[cnt]
         strr = str(cnt) + "|"
         for i in range(9):
-            if row[i] == -1: strr += "."
             if row[i] < 10: strr += " "
+            if row[i] == -1: strr += "."
             if row[i] == 0: strr += " "
             if row[i] > 0: strr += str(row[i])
             if i < 8: strr += "|"
         strr += "|" + str(cnt)
         print(strr)
-    print("   0  1  2  3  4  5  6  7  8 ")
+    print(header)
 
 def getGrid():
     return [[0] * 9 for i in range(9)]
