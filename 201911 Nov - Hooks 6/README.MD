@@ -8,7 +8,7 @@ A black number outside the grid indicates the product of the concatenated number
 <img src="https://www.janestreet.com/puzzles/wp-content/uploads/2019/11/Nov19_puzzle.png" width="500"></br>
 
 If you ran my **mainNov.py**, you should get:</br>
-<img src="https://raw.githubusercontent.com/flameworks/JaneStreetPuzzles/master/201911%20Nov%20-%20Hooks%206/codeResult.PNG" width="500"></br>
+<img src="https://raw.githubusercontent.com/flameworks/JaneStreetPuzzles/master/201911%20Nov%20-%20Hooks%206/codeResults.PNG" width="500"></br>
 
 Puzzle link: https://www.janestreet.com/puzzles/hooks-6/ </br>
 JStreet's solution explanation: https://www.janestreet.com/puzzles/solutions/november-2019-solution/ </br>
