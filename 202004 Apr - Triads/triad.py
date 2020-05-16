@@ -1,5 +1,3 @@
-
-
 class Node:
     def __init__(self,x):
         self.id = x
@@ -84,7 +82,7 @@ class Pyramid:
             if a[i] != 3: return False
         return True
         
-    def print(self):
+    def pprint(self):
         idx = self.levels-1
         for layer in self.structure:
             strr = ' ' * int(3*idx)
@@ -96,8 +94,8 @@ class Pyramid:
 
 # Start
 import time
-
 ans = 0
+print("Iterations from 1 - 40:")
 for i in range(1,41):
     if i*(i+1)/2 %3 == 0:
         a = Pyramid(i)
@@ -108,23 +106,18 @@ for i in range(1,41):
         if boolC:
             print(i, f"Solved in {toc - tic:0.5f}s",boolC)
             if boolC: ans+= i
-##            a.print()
-print()
-print("Final Answer:",ans)
+##            a.pprint()
+print("Final Answer (SUM of above):",ans)
 
-'''
-2 Completed: True
-9 Completed: True
-11 Completed: True
-12 Completed: True
-14 Completed: True
-21 Completed: True
-23 Completed: True
-24 Completed: True
-26 Completed: True
-33 Completed: True
-35 Completed: True
-36 Completed: True
-38 Completed: True
-'''
+print()
+print("Example of INCOMPLETE sub-triad formation at level 15:")
+x = Pyramid(15)
+x.solve()
+x.pprint()
+
+print()
+print("Example of COMPLETE sub-triad formation at level 11:")
+x = Pyramid(11)
+x.solve()
+x.pprint()
 

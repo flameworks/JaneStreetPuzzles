@@ -5,6 +5,9 @@ For some values of N, it is possible to separate the triangular grid into disjoi
 
 What is the sum of all values of N < 40 for which it is possible?
 
+If you ran my **triad.py**, you should get:</br>
+<img src="https://raw.githubusercontent.com/flameworks/JaneStreetPuzzles/master/201911%20Apr%20-%20Triads/codeResult.PNG" width="700"></br>
+
 Puzzle link: https://www.janestreet.com/puzzles/triads/ </br>
 JStreet's solution explanation: https://www.janestreet.com/puzzles/solutions/april-2020-solution/ </br>
 
