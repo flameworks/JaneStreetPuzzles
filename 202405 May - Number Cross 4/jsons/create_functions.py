@@ -169,13 +169,13 @@ def sum_digit7(MASTER_NUM):
 #### Main functions #####
 def generate_jsons(MASTER_NUM):
     master_functions = {
-                        # "derive_squares": derive_squares,
-                        # "power_seven": power_seven,
-                        # "fibonacci": fibonacci,
-                        # "palindrome": palindrome,
-                        # "palindrome_wrapper": palindrome_wrapper,
-                        # "get_primes": get_primes,
-                        # "prime_power": prime_power,
+                        "derive_squares": derive_squares,
+                        "power_seven": power_seven,
+                        "fibonacci": fibonacci,
+                        "palindrome": palindrome,
+                        "palindrome_wrapper": palindrome_wrapper,
+                        "get_primes": get_primes,
+                        "prime_power": prime_power,
                         # "power_end_1": power_end_1,
                         # "mult37": mult37,
                         # "sum_digit7": sum_digit7,
